@@ -6,7 +6,7 @@
         <table>
           <thead>
             <tr>
-              <th>PARTICIPANTS</th>
+              <th>OSALLISTUJAT</th>
               <th
                 v-for="(time, i) in schedule.times"
                 :key="i"
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { getScheduleByCode } from "@/firebase";
+import { getScheduleByCode, changeAnswer } from "@/firebase";
 import { useRoute } from "vue-router";
 import { mapGetters } from "vuex";
 import AnswerBtn from "@/components/AnswerBtn.vue";
@@ -43,9 +43,6 @@ export default {
   name: "Millo",
   components: {
     AnswerBtn,
-  },
-  data() {
-    return {};
   },
   setup() {
     const route = useRoute();
@@ -61,8 +58,9 @@ export default {
       return `${date.getUTCDate()}.${date.getUTCMonth() + 1}`;
     },
     changeAnswer(ans) {
-      console.log("answer", ans);
-    },
+      ans.id = this.$route.params.id
+      changeAnswer(ans);      
+    }
   },
 };
 </script>

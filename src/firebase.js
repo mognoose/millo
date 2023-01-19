@@ -29,3 +29,10 @@ export const getScheduleByCode = (id) => {
     onUnmounted(close);
     return schedule;
 }
+
+export const changeAnswer = async (ans) => {
+    console.log("firebase:", ans);
+    // TODO: Rethink whole logic
+    // return schedules.doc(ans.id).users[1].update({maybe: ans.ans})
+
+}
