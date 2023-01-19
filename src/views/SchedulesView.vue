@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    {{ name }}
-    <Millo v-if="name" />
+    <span v-if="name && !userBelongs">{{ name }} ei ole osa tätä ryhmää</span>
+    <Millo v-if="name && userBelongs" />
     <Kuka v-else />
   </div>
 </template>
@@ -25,19 +25,26 @@ export default {
     ...mapGetters(["name"]),
   },
   data() {
-    return {};
+    return {
+      userBelongs: false
+    };
   },
   setup() {
     const route = useRoute();
     const schedule = getScheduleByCode(route.params.id);
     return { schedule };
   },
+  updated () {
+    this.checkName();
+  },
   methods: {
-    answer(user, i) {
-      if (user.maybe && user.maybe.includes(i.toString())) return "⁉";
-      if (user.yes && user.yes.includes(i.toString())) return "✔";
-      if (user.no && user.no.includes(i.toString())) return "✗";
-    },
+    checkName(){
+      const usernames = this.schedule.users.map(user => user.name)
+      console.log("this.name:", this.name);
+      console.log("usernames:", usernames);
+      if (usernames.includes(this.name)) this.userBelongs = true;
+      console.log(this.userBelongs);
+    }
   },
 };
 </script>
